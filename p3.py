@@ -3,10 +3,10 @@ import sys
 
 import pygame
 import requests
-def open(x, y, m1, m2, format_='map'):
+def openn(x, y, m1, m2, format_='map'):
 
     response = None
-    map_request = "http://static-maps.yandex.ru/1.x/?ll={},{}&spn={},{}&l={}".format(x, y, str(m1), m2, format_)
+    map_request = "http://static-maps.yandex.ru/1.x/?ll={},{}&spn={},{}&l={}".format(str(x), str(y), str(m1), str(m2), format_)
     response = requests.get(map_request)
 
     if not response:
@@ -32,4 +32,4 @@ def open(x, y, m1, m2, format_='map'):
     pygame.quit()
 
     os.remove(map_file)
-open(37.530887, 55.703118, 0.002, 0.002)
+openn(37.57, 55.703118, 0.005, 0.00111)
