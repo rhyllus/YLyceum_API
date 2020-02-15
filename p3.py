@@ -42,11 +42,11 @@ while running:
         if event.type == pygame.KEYDOWN:
             key = pygame.key.get_pressed()
             if key[pygame.K_RIGHT]:
-                x += 1
+                x += (m1 * 2)
             elif key[pygame.K_LEFT]:
-                x -= 1
+                x -= (m1 * 2)
             elif key[pygame.K_UP]:
-                y += 1
+                y += (m2 * 2)
             elif key[pygame.K_DOWN]:
-                y -= 1
+                y -= (m2 * 2)
     openn(x, y, m1, m2, format_='map')
