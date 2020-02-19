@@ -28,6 +28,7 @@ active = False
 text = ''
 hold = False
 button_hold = False
+pt = None
 back_hold = False
 tick = 0
 clock_tick = 15
@@ -36,6 +37,7 @@ clock_tick = 15
 def finder(text):
     global ll
     global ll_2
+    global pt
     geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
     geocoder_params = {
         "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
@@ -47,20 +49,27 @@ def finder(text):
     json_response = response.json()
     if 'error' in json_response or len(json_response["response"]["GeoObjectCollection"][
                                            "featureMember"]) == 0:
+        pt = '&pt={},{}'.format(ll, ll_2)
         return ll, ll_2
     toponym = json_response["response"]["GeoObjectCollection"][
         "featureMember"][0]["GeoObject"]
     toponym_coodrinates = toponym["Point"]["pos"]
     toponym_longitude, toponym_lattitude = toponym_coodrinates.split(" ")
+    pt = '&pt={},{}'.format(toponym_longitude, toponym_lattitude)
+    toponym_lattitude = float(toponym_lattitude)
+    toponym_longitude = float(toponym_longitude)
     return toponym_longitude, toponym_lattitude
 
 
 def openn(x, y, m1, m2, format_='map'):
     global screen
+    global pt
     map_request = "http://static-maps.yandex.ru/1.x/?ll={},{}&spn={},{}&l={}".format(str(x), str(y),
                                                                                      str(m1),
                                                                                      str(m2),
                                                                                      format_)
+    if pt is not None:
+        map_request += pt
     response = requests.get(map_request)
 
     if not response:
